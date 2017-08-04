@@ -39,12 +39,13 @@ class PersonSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Person
-        fields = ('id', 'fname', 'lname', 'articles')
+        fields = '__all__'
 
 
 class ArticleSerializer(serializers.ModelSerializer):
-    author_id = PersonSerializer(required=False)
+    author = PersonSerializer(required=False)
     detail = serializers.HyperlinkedIdentityField(view_name='article-detail')
+    images = serializers.HyperlinkedIdentityField(view_name='articleimage-list')
 
     class Meta:
         model = Article
@@ -52,7 +53,7 @@ class ArticleSerializer(serializers.ModelSerializer):
 
 
 class ImageSerializer(serializers.ModelSerializer):
-    image = serializers.ReadOnlyField('image.url')
+    image = serializers.ReadOnlyField(source='image.url')
 
     class Meta:
         model = Image

@@ -124,3 +124,21 @@ class ImageMixin(object):
     model = Image
     queryset = Image.objects.all()
     serializer_class = ImageSerializer
+
+
+class ImageList(ImageMixin, generics.ListAPIView):
+    pass
+
+
+class ImageDetail(ImageMixin, generics.RetrieveUpdateDestroyAPIView):
+    pass
+
+
+class ArticleImageList(generics.ListAPIView):
+    model = Image
+    queryset = Image.objects.all()
+    serializer_class = ImageSerializer
+
+    def get_queryset(self):
+        queryset = super(ArticleImageList, self).get_queryset()
+        return queryset.filter(article__pk=self.kwargs.get('pk'))
