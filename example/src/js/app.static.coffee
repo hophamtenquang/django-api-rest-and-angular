@@ -3,7 +3,7 @@ app = angular.module 'example.app.static', []
 app.controller 'AppController', ['$scope', '$http', ($scope, $http) ->
     $scope.posts = [
         author:
-            username: 'Joe'
+            username: 'Quang'
         title: 'Sample Post #1'
         body: 'This is the first sample post'
     ,

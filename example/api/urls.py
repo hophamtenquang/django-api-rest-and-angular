@@ -3,6 +3,8 @@ from django.conf.urls import url, include
 from .api import UserList, UserDetail
 from .api import PostList, PostDetail, UserPostList
 from .api import PhotoList, PhotoDetail, PostPhotoList
+from .api import ArticleList, ArticleDetail
+from .api import PersonList, PersonDetail, PersonAricleList
 
 user_urls = [
     url(r'^/(?P<username>[0-9a-zA-Z_-]+)/posts$', UserPostList.as_view(), name='userpost-list'),
@@ -21,8 +23,21 @@ photo_urls = [
     url(r'^$', PhotoList.as_view(), name='photo-list')
 ]
 
+person_urls = [
+    url(r'^$', PersonList.as_view(), name='person-list'),
+    url(r'^/(?P<pk>\d+)$', PersonDetail.as_view(), name='person-detail'),
+    url(r'^/(?P<pk>\d+)/articles$', PersonAricleList.as_view(), name='personarticle-list')
+]
+
+article_urls = [
+    url(r'^$', ArticleList.as_view(), name='article-list'),
+    url(r'^/(?P<pk>\d+)$', ArticleDetail.as_view(), name='article-detail')
+]
+
 urlpatterns = [
     url(r'^users', include(user_urls)),
     url(r'^posts', include(post_urls)),
     url(r'^photos', include(photo_urls)),
+    url(r'^people', include(person_urls)),
+    url(r'^articles', include(article_urls))
 ]

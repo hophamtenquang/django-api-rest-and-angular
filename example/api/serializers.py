@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import User, Post, Photo
+from .models import User, Post, Photo, Person, Article, Image
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -31,3 +31,29 @@ class PhotoSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Photo
+        fields = ('id', 'image')
+
+
+class PersonSerializer(serializers.ModelSerializer):
+    articles = serializers.HyperlinkedIdentityField(view_name='personarticle-list')
+
+    class Meta:
+        model = Person
+        fields = ('id', 'fname', 'lname', 'articles')
+
+
+class ArticleSerializer(serializers.ModelSerializer):
+    author_id = PersonSerializer(required=False)
+    detail = serializers.HyperlinkedIdentityField(view_name='article-detail')
+
+    class Meta:
+        model = Article
+        fields = '__all__'
+
+
+class ImageSerializer(serializers.ModelSerializer):
+    image = serializers.ReadOnlyField('image.url')
+
+    class Meta:
+        model = Image
+        fields = '__all__'
